@@ -68,23 +68,23 @@ RoBERTa-base fine-tuned on approximately 124 million tweets, purpose-built for s
 
 ### Sentiment Distribution
 
-![Sentiment Bar Chart](outputs/sentiment_bar_chart.png)
+![Sentiment Bar Chart](sentiment_bar_chart.png)
 
 ### Daily Sentiment Trend
 
-![Sentiment Trend](outputs/sentiment_trend.png)
+![Sentiment Trend](sentiment_trend.png)
 
 Pre-launch discourse (mid-2025) was almost entirely neutral, consistent with a period of speculation and unconfirmed leaks. At product launch (approximately March 2026), sentiment bifurcated sharply: positive and negative reactions rose simultaneously as hands-on impressions and critical reviews entered the conversation.
 
 ### Model Confidence Distribution
 
-![Confidence Distribution](outputs/confidence_distribution.png)
+![Confidence Distribution](confidence_distribution.png)
 
 Positive predictions exhibit the widest confidence spread, reflecting ambiguous or mildly enthusiastic language that the model assigns probabilistically. Neutral and Negative predictions cluster above the 0.65 threshold, indicating higher model certainty for those classes. The dashed orange line denotes the low-confidence boundary below which predictions may warrant manual review.
 
 ### Word Clouds by Sentiment
 
-![Word Clouds](outputs/wordclouds_sentiment.png)
+![Word Clouds](wordclouds_sentiment.png)
 
 **Themes driving positive sentiment:** battery life, Liquid Retina display quality, M-series chip performance, colour options (Indigo, Blush), and RAM and storage configurations.
 
