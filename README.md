@@ -139,3 +139,51 @@ The notebook automatically detects and uses a GPU where available. For large dat
 - The dataset spans **July 2025 to April 2026**, covering the full arc from pre-announcement leaks through post-launch reviews.
 - Indonesian-language content (*perbandingan harga*, *di indonesia*) is present in the negative cluster, suggesting that regional price sensitivity is a meaningful driver of criticism in that market.
 - Predictions with a confidence score below 0.65 can be filtered out for higher-precision downstream analysis without materially reducing dataset size.
+
+
+
+
+Data Collection — X (Twitter) Scraper
+
+All tweet data used in this project was collected via a custom automated workflow built in n8n, a self-hosted workflow automation platform. No third-party Twitter/X API credentials or paid data providers were used.
+
+
+Workflow Overview
+
+The scraper workflow, named X_Scraper, was designed and executed on n8n Cloud. It follows a paginated loop architecture to collect tweets in batches and append them incrementally to a Google Sheet, which was then exported as Tweets.csv for use in the analysis notebook.
+
+
+Workflow Architecture
+
+The workflow is composed of two logical stages:
+
+Stage 1 — Scraping X
+
+NodeTypeRoleWhen clicking "Test workflow"Manual TriggerInitiates the workflow on demandSet CountSetInitialises the tweet counter and pagination cursorCounterSetTracks the running total of collected tweetsGet TweetsHTTP RequestCalls the TwitterScraper API endpoint to fetch a batch of tweets matching the target queryExtract InfoCodeParses the raw API response and extracts relevant fields (tweet ID, text, timestamp)Add to SheetGoogle SheetsAppends the extracted records to the destination spreadsheet
+
+Stage 2 — Checking Count and Pagination
+
+NodeTypeRoleChecking CountIFEvaluates whether the collected count has reached the target (20 items per batch check)No Operation, do nothingNo-opTerminates the loop when the target is metLimitLimitCaps output items passed to the next stageSet IncreaseSetPrepares the incremented counter valueIncrease CountCodeIncrements the pagination counterSet Count and CursorSetUpdates the cursor for the next page request and feeds back into the loop
+
+
+Query and Scope
+
+Tweets were collected using a keyword query targeting public mentions of MacBook Neo across X. The scraper captured tweet text, unique tweet ID, and creation timestamp for each record. Collection ran across multiple executions spanning the period July 2025 to April 2026, covering pre-launch speculation through post-launch user reviews.
+
+
+Output
+
+Collected records were appended in real time to a Google Sheet (visible in the browser tab labelled Tweets — Google Sheets during workflow execution). The final sheet was exported as:
+
+Tweets.csv
+
+This file serves as the raw input to Sentiment_MacBook_neo.ipynb.
+
+
+Notes
+
+
+The workflow was executed manually via the Execute Workflow button in the n8n editor.
+Each successful run is confirmed by the n8n status notification: Workflow executed successfully.
+The paginated loop ensures continuity across large result sets by maintaining a cursor between batches.
+Raw data was not filtered or cleaned at the collection stage; all preprocessing is handled within the analysis notebook.
